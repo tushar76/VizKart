@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import AnalyticsChart from './components/AnalyticsChart';
+import EventTable from './components/EventTable';
+import { fetchAnalyticsSummary } from './services/analyticsService';
 
 function App() {
+  const [analyticsData, setAnalyticsData] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // Fetch analytics summary from the backend
+    const fetchData = async () => {
+      try {
+        const data = await fetchAnalyticsSummary();
+        setAnalyticsData(data.chartData);
+        setEvents(data.events);
+      } catch (error) {
+        console.error("Error loading data", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>VizKart - ECommerce Analytics Dashboard</h1>
+      <div>
+        <h2>User Activity Chart</h2>
+        <AnalyticsChart data={analyticsData} />
+      </div>
+      <div>
+        <h2>Event Table</h2>
+        <EventTable events={events} />
+      </div>
     </div>
   );
 }
