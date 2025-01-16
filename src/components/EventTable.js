@@ -2,20 +2,20 @@ import React from 'react';
 
 const EventTable = ({ events }) => {
   return (
-    <table>
+    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <th>Event ID</th>
-          <th>Event Type</th>
-          <th>Timestamp</th>
+          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Event ID</th>
+          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Description</th>
+          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Timestamp</th>
         </tr>
       </thead>
       <tbody>
         {events.map((event, index) => (
           <tr key={index}>
-            <td>{event.id}</td>
-            <td>{event.type}</td>
-            <td>{event.timestamp}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.id}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.description}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{new Date(event.timestamp).toLocaleString()}</td>
           </tr>
         ))}
       </tbody>
