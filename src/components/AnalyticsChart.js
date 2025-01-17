@@ -3,19 +3,33 @@ import { Line } from 'react-chartjs-2';
 
 const AnalyticsChart = ({ data }) => {
   const chartData = {
-    labels: data.map(item => item.timestamp),
+    labels: data.map((item) => item.label),
     datasets: [
       {
-        label: 'User Activity Over Time',
-        data: data.map(item => item.value),
-        backgroundColor: 'rgba(75,192,192,0.4)',
+        label: 'User Activity',
+        data: data.map((item) => item.value),
+        backgroundColor: 'rgba(75,192,192,0.2)',
         borderColor: 'rgba(75,192,192,1)',
-        fill: true,
+        borderWidth: 2,
       },
     ],
   };
 
-  return <Line data={chartData} />;
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  return (
+    <div style={{ height: '400px', width: '600px', margin: 'auto' }}>
+      <Line data={chartData} options={options} />
+    </div>
+  );
 };
 
 export default AnalyticsChart;
