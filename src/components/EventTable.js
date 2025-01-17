@@ -1,25 +1,49 @@
 import React from 'react';
 
-const EventTable = ({ events }) => {
+const EventTable = ({ events = [] }) => {
+  if (events.length === 0) {
+    return (
+      <div>
+        <h2>Event Details</h2>
+        <p>No events available to display.</p>
+      </div>
+    );
+  }
+
   return (
-    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-      <thead>
-        <tr>
-          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Event ID</th>
-          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Description</th>
-          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Timestamp</th>
-        </tr>
-      </thead>
-      <tbody>
-        {events.map((event, index) => (
-          <tr key={index}>
-            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.id}</td>
-            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.description}</td>
-            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{new Date(event.timestamp).toLocaleString()}</td>
+    <div>
+      <h2>Event Details</h2>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }} aria-label="Event Table">
+        <thead>
+          <tr>
+            {["Event ID", "Description", "Timestamp"].map((header) => (
+              <th
+                key={header}
+                style={{
+                  border: '1px solid #ddd',
+                  padding: '8px',
+                  backgroundColor: '#f2f2f2',
+                  fontWeight: 'bold',
+                }}
+              >
+                {header}
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {events.map(({ id, description, timestamp }, index) => (
+            <tr key={index}>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{id}</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{description}</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                {new Date(timestamp).toLocaleString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
