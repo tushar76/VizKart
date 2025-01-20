@@ -14,21 +14,21 @@ function App() {
       try {
         const data = await fetchAnalyticsSummary();
 
-        // Update chart and events data
+       
         setAnalyticsData(data.chartData);
         setEvents(data.events);
 
-        // Success toast notification
+        
         toast.success(`Fetched ${data.events.length} new events!`, {
-          position: "top-right", // Corrected position string
+          position: "top-right", 
           autoClose: 3000,
         });
       } catch (error) {
         console.error("Error loading data", error);
 
-        // Error toast notification
+      
         toast.error("Failed to fetch analytics data.", {
-          position: "top-right", // Corrected position string
+          position: "top-right", 
           autoClose: 3000,
         });
       }
@@ -36,9 +36,9 @@ function App() {
 
     fetchData();
 
-    // Set up periodic fetch for real-time updates
+    
     const interval = setInterval(fetchData, 10000);
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    return () => clearInterval(interval); 
   }, []);
 
   return (
