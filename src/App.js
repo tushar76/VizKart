@@ -9,9 +9,10 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  
   const fetchData = async () => {
     setLoading(true);
-    setError(null); 
+    setError(null);
     try {
       const data = await fetchAnalyticsSummary();
       setAnalyticsData(data.chartData);
@@ -24,15 +25,25 @@ function App() {
     }
   };
 
- 
+  
   useEffect(() => {
     fetchData();
+
+   
+    const interval = setInterval(() => {
+      console.log("Auto-refreshing analytics data...");
+      fetchData();
+    }, 30000); 
+
+   
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="App">
       <h1>E-Commerce Analytics Dashboard</h1>
 
+    
       <button
         onClick={fetchData}
         style={{
@@ -44,7 +55,7 @@ function App() {
           borderRadius: '5px',
           cursor: 'pointer',
         }}
-        disabled={loading} 
+        disabled={loading}
       >
         {loading ? 'Refreshing...' : 'Refresh Data'}
       </button>
