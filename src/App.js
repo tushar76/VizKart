@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import AnalyticsChart from './components/AnalyticsChart';
 import EventTable from './components/EventTable';
 import { fetchAnalyticsSummary } from './services/analyticsService';
@@ -6,6 +8,8 @@ import { fetchAnalyticsSummary } from './services/analyticsService';
 function App() {
   const [analyticsData, setAnalyticsData] = useState([]);
   const [events, setEvents] = useState([]);
+  const [startDate, setStartDate] = useState(new Date()); // Default: Today
+  const [endDate, setEndDate] = useState(new Date()); // Default: Today
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,11 +18,11 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchAnalyticsSummary();
+      const data = await fetchAnalyticsSummary(startDate, endDate);
       setAnalyticsData(data.chartData);
       setEvents(data.events);
     } catch (err) {
-      setError("Failed to load analytics data. Please try again.");
+      setError("Failed to load analytics data.");
       console.error("Error loading data:", err);
     } finally {
       setLoading(false);
@@ -28,39 +32,28 @@ function App() {
   
   useEffect(() => {
     fetchData();
-
-   
-    const interval = setInterval(() => {
-      console.log("Auto-refreshing analytics data...");
-      fetchData();
-    }, 30000); 
-
-   
-    return () => clearInterval(interval);
-  }, []);
+  }, [startDate, endDate]);
 
   return (
     <div className="App">
       <h1>E-Commerce Analytics Dashboard</h1>
 
     
-      <button
-        onClick={fetchData}
-        style={{
-          marginBottom: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#007BFF',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-        disabled={loading}
-      >
-        {loading ? 'Refreshing...' : 'Refresh Data'}
-      </button>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <div>
+          <label>Start Date:</label>
+          <DatePicker selected={startDate} onChange={setStartDate} />
+        </div>
+        <div>
+          <label>End Date:</label>
+          <DatePicker selected={endDate} onChange={setEndDate} />
+        </div>
+        <button onClick={fetchData} disabled={loading}>
+          {loading ? 'Loading...' : 'Apply Filter'}
+        </button>
+      </div>
 
-     
+      
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div>
