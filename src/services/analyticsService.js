@@ -2,16 +2,17 @@ import axios from 'axios';
 
 const API_BASE_URL = "http://localhost:8080/api/analytics";
 
-export const fetchAnalyticsSummary = async () => {
+export const fetchAnalyticsSummary = async (startDate, endDate) => {
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/summary`);
-    return data;
-  } catch (error) {
-    console.error("Error fetching analytics data:", {
-      message: error.message,
-      status: error.response?.status,
-      details: error.response?.data,
+    const response = await axios.get(`${API_BASE_URL}/summary`, {
+      params: {
+        startDate: startDate.toISOString().split('T')[0], // Format YYYY-MM-DD
+        endDate: endDate.toISOString().split('T')[0],
+      },
     });
-    throw new Error("Failed to fetch analytics data. Please try again later.");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching analytics data:", error);
+    throw error;
   }
 };
