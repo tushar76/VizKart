@@ -6,7 +6,7 @@ export const fetchAnalyticsSummary = async (startDate, endDate) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/summary`, {
       params: {
-        startDate: startDate.toISOString().split('T')[0], // Format YYYY-MM-DD
+        startDate: startDate.toISOString().split('T')[0],
         endDate: endDate.toISOString().split('T')[0],
       },
     });
