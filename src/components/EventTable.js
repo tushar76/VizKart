@@ -1,4 +1,7 @@
 import React from 'react';
+import ExportButtons from "./ExportButtons";
+
+<ExportButtons events={events} />
 
 const EventTable = ({ events = [] }) => {
   if (events.length === 0) {
