@@ -12,7 +12,7 @@ const cellStyles = {
 
 const headerStyles = {
   ...cellStyles,
-  backgroundColor: "#f2f2f2",
+  backgroundColor: "#00f",
   fontWeight: "bold",
 };
 

@@ -33,30 +33,40 @@ const App = () => {
   return (
     <ErrorBoundary>
       <div className="app-container">
-        <h1 className="dashboard-title">E-Commerce Analytics Dashboard</h1>
+  <h1 className="dashboard-title">E-Commerce Analytics Dashboard</h1>
 
-        <div className="section">
-          <h2 className="section-title">User Activity Chart</h2>
-          <div className="chart-container">
-            <AnalyticsChart data={[{ label: "Jan", value: 100 }]} />
-          </div>
-        </div>
-
-        <div className="section">
-          <h2 className="section-title">Event Table</h2>
-          <div className="table-container">
-            <EventTable events={events} />
-          </div>
-        </div>
-
-        <div className="section">
-          <h2 className="section-title">Export & Share</h2>
-          <div className="export-container">
-            <ExportExcel events={events} />
-            <EmailReport />
-          </div>
+  <div className="main-content">
+    <div className="left-block">
+      <div className="section">
+        <h2 className="section-title">User Activity Chart</h2>
+        <div className="chart-container">
+          <AnalyticsChart data={[{ label: "Jan", value: 100 }]} />
         </div>
       </div>
+    </div>
+
+    <div className="right-block">
+      <div className="section">
+        <h2 className="section-title">Event Table</h2>
+        <div className="table-container">
+          <EventTable events={events} />
+        </div>
+      </div>
+
+    
+
+      <div className="section">
+        <h2 className="section-title">Export & Share</h2>
+        <div className="export-container">
+          <ExportExcel events={events} />
+          <EmailReport />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+     
     </ErrorBoundary>
   );
 };
