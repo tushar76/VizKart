@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import AnalyticsChart from "./components/AnalyticsChart";
 import EventTable from "./components/EventTable";
 import ExportExcel from "./components/ExportExcel";
 import EmailReport from "./components/EmailReport";
+import SkeletonLoader from "./components/SkeletonLoader";
 import "./App.css";
 
 const ErrorBoundary = ({ children }) => {
@@ -44,6 +46,14 @@ const App = () => {
   const [events] = useState([
     { id: 1, description: "User logged in", timestamp: Date.now() },
   ]);
+  const [loading, setLoading] = useState(true); 
+
+  useEffect(() => {
+   
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+  }, []);
 
   return (
     <ErrorBoundary>
@@ -55,7 +65,11 @@ const App = () => {
             <div className="section">
               <h2 className="section-title">User Activity Chart</h2>
               <div className="chart-container">
-                <AnalyticsChart data={[{ label: "Jan", value: 100 }]} />
+                {loading ? (
+                  <SkeletonLoader shape="rectangular" width="100%" height={300} />
+                ) : (
+                  <AnalyticsChart data={[{ label: "Jan", value: 100 }]} />
+                )}
               </div>
             </div>
           </div>
@@ -64,15 +78,25 @@ const App = () => {
             <div className="section">
               <h2 className="section-title">Event Table</h2>
               <div className="table-container">
-                <EventTable events={events} />
+                {loading ? (
+                  <SkeletonLoader shape="table" width="100%" height={150} />
+                ) : (
+                  <EventTable events={events} />
+                )}
               </div>
             </div>
 
             <div className="section">
               <h2 className="section-title">Export & Share</h2>
               <div className="export-container">
-                <ExportExcel events={events} />
-                <EmailReport />
+                {loading ? (
+                  <SkeletonLoader shape="rectangular" width="100%" height={150} />
+                ) : (
+                  <>
+                    <ExportExcel events={events} />
+                    <EmailReport />
+                  </>
+                )}
               </div>
             </div>
           </div>
