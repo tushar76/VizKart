@@ -41,10 +41,16 @@ const ErrorBoundary = ({ children }) => {
 
   return children;
 };
-
 const App = () => {
   const [events] = useState([
-    { id: 1, description: "User logged in", timestamp: Date.now() },
+    { id: 1, description: "User logged in", timestamp: Date.now() - 240000 }, 
+    { id: 2, description: "Product added to cart", timestamp: Date.now() - 180000 }, 
+    { id: 3, description: "Checkout started", timestamp: Date.now() - 120000 }, 
+    { id: 4, description: "Payment successful", timestamp: Date.now() - 60000 }, 
+    { id: 5, description: "User logged out", timestamp: Date.now() }, 
+    { id: 6, description: "New user registered", timestamp: Date.now() + 60000 }, 
+    { id: 7, description: "Profile updated", timestamp: Date.now() + 120000 }, 
+    { id: 8, description: "Password changed", timestamp: Date.now() + 180000 },
   ]);
   const [loading, setLoading] = useState(true); 
 
@@ -66,10 +72,23 @@ const App = () => {
               <h2 className="section-title">User Activity Chart</h2>
               <div className="chart-container">
                 {loading ? (
-                  <SkeletonLoader shape="rectangular" width="100%" height={300} />
+                  <SkeletonLoader shape="rectangular" width="100%" height={400} />
                 ) : (
-                  <AnalyticsChart data={[{ label: "Jan", value: 100 }]} />
-                )}
+                  <AnalyticsChart data={[
+    { label: "Jan", value: 100 },
+    { label: "Feb", value: 150 },
+    { label: "Mar", value: 200 },
+    { label: "Apr", value: 175 },
+    { label: "May", value: 220 },
+    { label: "Jun", value: 180 },
+    { label: "Jul", value: 250 },
+    { label: "Aug", value: 210 },
+    { label: "Sep", value: 190 },
+    { label: "Oct", value: 230 },
+    { label: "Nov", value: 210 },
+    { label: "Dec", value: 240 },
+  ]}
+/>)}
               </div>
             </div>
           </div>
@@ -91,6 +110,8 @@ const App = () => {
               <div className="export-container">
                 {loading ? (
                   <SkeletonLoader shape="rectangular" width="100%" height={150} />
+                  
+                  
                 ) : (
                   <>
                     <ExportExcel events={events} />

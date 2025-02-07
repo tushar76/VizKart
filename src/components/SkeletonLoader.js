@@ -34,4 +34,4 @@ const SkeletonLoader = ({ shape, width, height }) => {
   }
 };
 
-export default SkeletonLoader;
+      export default SkeletonLoader;
