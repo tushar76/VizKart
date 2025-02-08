@@ -7,7 +7,7 @@ const tableStyles = {
 
 const cellStyles = {
   border: "1px solid #ddd",
-  padding: "5px",
+  padding: "4px",
 };
 
 const headerStyles = {

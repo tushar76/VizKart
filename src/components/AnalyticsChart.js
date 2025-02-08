@@ -1,12 +1,12 @@
-
-import React from "react";
+import React, { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
 const AnalyticsChart = ({ data }) => {
-  const chartData = {
+  // Memoize chart data and options to prevent unnecessary recalculations
+  const chartData = useMemo(() => ({
     labels: data.map((item) => item.label),
     datasets: [
       {
@@ -17,9 +17,9 @@ const AnalyticsChart = ({ data }) => {
         borderWidth: 2,
       },
     ],
-  };
+  }), [data]);
 
-  const options = {
+  const options = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -27,14 +27,15 @@ const AnalyticsChart = ({ data }) => {
         beginAtZero: true,
       },
     },
-  };
+  }), []);
 
   return (
-    <div style={{ height: "400px", width: "600px", margin: "auto" }}>
+    <div style={{ height: "400px",width: "600px", margin: "auto" }}>
       <Line data={chartData} options={options} />
     </div>
   );
 };
 
 export default AnalyticsChart;
+
 
