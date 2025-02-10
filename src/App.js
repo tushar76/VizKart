@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import AnalyticsChart from "./components/AnalyticsChart";
 import EventTable from "./components/EventTable";
@@ -13,12 +12,12 @@ const ErrorBoundary = ({ children }) => {
   const maxRetries = 3; // Maximum retry attempts
 
   useEffect(() => {
-    const errorHandler = (error, errorInfo) => {
-      console.error("Error in a component:", error, errorInfo);
+    const errorHandler = (error) => {
+      console.error("Error in a component:", error);
 
       if (retryCount < maxRetries) {
         setRetryCount(retryCount + 1);
-        setHasError(false); 
+        setHasError(false);
       } else {
         setHasError(true);
       }
@@ -41,24 +40,45 @@ const ErrorBoundary = ({ children }) => {
 
   return children;
 };
+
 const App = () => {
-  const [events] = useState([
-    { id: 1, description: "User logged in", timestamp: Date.now() - 240000 }, 
-    { id: 2, description: "Product added to cart", timestamp: Date.now() - 180000 }, 
-    { id: 3, description: "Checkout started", timestamp: Date.now() - 120000 }, 
-    { id: 4, description: "Payment successful", timestamp: Date.now() - 60000 }, 
-    { id: 5, description: "User logged out", timestamp: Date.now() }, 
-    { id: 6, description: "New user registered", timestamp: Date.now() + 60000 }, 
-    { id: 7, description: "Profile updated", timestamp: Date.now() + 120000 }, 
-    { id: 8, description: "Password changed", timestamp: Date.now() + 180000 },
-  ]);
-  const [loading, setLoading] = useState(true); 
+  const [events, setEvents] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-   
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000); 
+    // Fetch events
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/events");
+        if (!response.ok) {
+          throw new Error("Failed to fetch events");
+        }
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    // Fetch chart data
+    const fetchChartData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/chart-data");
+        if (!response.ok) {
+          throw new Error("Failed to fetch chart data");
+        }
+        const data = await response.json();
+        setChartData(data);
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+    fetchChartData();
   }, []);
 
   return (
@@ -74,21 +94,8 @@ const App = () => {
                 {loading ? (
                   <SkeletonLoader shape="rectangular" width="100%" height={400} />
                 ) : (
-                  <AnalyticsChart data={[
-    { label: "Jan", value: 100 },
-    { label: "Feb", value: 150 },
-    { label: "Mar", value: 200 },
-    { label: "Apr", value: 175 },
-    { label: "May", value: 220 },
-    { label: "Jun", value: 180 },
-    { label: "Jul", value: 250 },
-    { label: "Aug", value: 210 },
-    { label: "Sep", value: 190 },
-    { label: "Oct", value: 230 },
-    { label: "Nov", value: 210 },
-    { label: "Dec", value: 240 },
-  ]}
-/>)}
+                  <AnalyticsChart data={chartData} />
+                )}
               </div>
             </div>
           </div>
@@ -110,8 +117,6 @@ const App = () => {
               <div className="export-container">
                 {loading ? (
                   <SkeletonLoader shape="rectangular" width="100%" height={150} />
-                  
-                  
                 ) : (
                   <>
                     <ExportExcel events={events} />
