@@ -38,7 +38,8 @@ app.get("/api/events", (req, res) => {
 
 app.get("/api/chart-data", (req, res) => {
   res.json(chartData); 
-})
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
