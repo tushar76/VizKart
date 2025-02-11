@@ -1,45 +1,51 @@
-import React from "react";
 
-const tableStyles = {
-  width: "100%",
-  borderCollapse: "collapse",
-};
+import React, { useMemo } from "react";
 
-const cellStyles = {
-  border: "1px solid #ddd",
-  padding: "8px",
-};
-
-const headerStyles = {
-  ...cellStyles,
-  backgroundColor: "#00f",
-  fontWeight: "bold",
+const styles = {
+  table: {
+    width: "100%",
+    borderCollapse: "collapse",
+  },
+  cell: {
+    border: "1px solid #ddd",
+    padding: "4px",
+  },
+  header: {
+    backgroundColor: "#00f",
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  title: {
+    color: "#3449E4", 
+  },
 };
 
 const EventTable = ({ events = [] }) => {
+  const eventRows = useMemo(
+    () =>
+      events.map((event) => (
+        <tr key={event.id}>
+          <td style={styles.cell}>{event.id}</td>
+          <td style={styles.cell}>{event.description}</td>
+          <td style={styles.cell}>{new Date(event.timestamp).toLocaleString()}</td>
+        </tr>
+      )),
+    [events]
+  );
+
   return (
     <div>
-      <h2>Event Details</h2>
+      <h2 style={styles.title}>Event Details</h2>
       {events.length > 0 ? (
-        <table style={tableStyles} aria-label="Event Table">
+        <table style={styles.table} aria-label="Event Table">
           <thead>
             <tr>
-              <th style={headerStyles}>Event ID</th>
-              <th style={headerStyles}>Description</th>
-              <th style={headerStyles}>Timestamp</th>
+              <th style={{ ...styles.cell, ...styles.header }}>Event ID</th>
+              <th style={{ ...styles.cell, ...styles.header }}>Description</th>
+              <th style={{ ...styles.cell, ...styles.header }}>Timestamp</th>
             </tr>
           </thead>
-          <tbody>
-            {events.map((event, index) => (
-              <tr key={index}>
-                <td style={cellStyles}>{event.id}</td>
-                <td style={cellStyles}>{event.description}</td>
-                <td style={cellStyles}>
-                  {new Date(event.timestamp).toLocaleString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{eventRows}</tbody>
         </table>
       ) : (
         <p>No events available to display.</p>
