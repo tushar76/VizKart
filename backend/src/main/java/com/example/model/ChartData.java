@@ -1,13 +1,14 @@
 package com.example.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ChartData {
-    private String label;
+    private String month;
     private int value;
+
+    public ChartData(String month, int value) {
+        this.month = month;
+        this.value = value;
+    }
+
+    public String getMonth() { return month; }
+    public int getValue() { return value; }
 }
