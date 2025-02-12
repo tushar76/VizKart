@@ -9,12 +9,10 @@ const ExportExcel = ({ events }) => {
       return;
     }
 
-    // Convert JSON to a worksheet
+
     const worksheet = XLSX.utils.json_to_sheet(events);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Events");
-
-    // Create Excel file and trigger download
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",

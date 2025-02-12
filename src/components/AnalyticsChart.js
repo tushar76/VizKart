@@ -5,12 +5,14 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
 const AnalyticsChart = ({ data }) => {
-  // Memoize chart data and options to prevent unnecessary recalculations
+ 
+  
+
   const chartData = useMemo(() => ({
-    labels: data.map((item) => item.label),
+    labels: data.map((item) => item.month), 
     datasets: [
       {
-        label: "User Activity",
+        label: "Monthly Sales", 
         data: data.map((item) => item.value),
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
@@ -18,7 +20,7 @@ const AnalyticsChart = ({ data }) => {
       },
     ],
   }), [data]);
-
+  
   const options = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,

@@ -8,7 +8,7 @@ const styles = {
   },
   cell: {
     border: "1px solid #ddd",
-    padding: "4px",
+    padding: "3px",
   },
   header: {
     backgroundColor: "#00f",
