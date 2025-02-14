@@ -4,8 +4,7 @@ import com.example.model.Event;
 import com.example.model.ChartData;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -42,5 +41,15 @@ public class EventController {
             new ChartData("Nov", 210),
             new ChartData("Dec", 240)
         );
+    }
+
+    @GetMapping("/user-statistics")
+    public Map<String, Object> getUserStatistics() {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalUsers", 1500);
+        stats.put("activeUsers", 850);
+        stats.put("newSignups", 120);
+        stats.put("returningUsers", 500);
+        return stats;
     }
 }

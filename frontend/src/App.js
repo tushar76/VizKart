@@ -1,19 +1,19 @@
-
 import React, { useState, useEffect } from "react";
 import AnalyticsChart from "./components/AnalyticsChart";
 import EventTable from "./components/EventTable";
 import ExportExcel from "./components/ExportExcel";
 import EmailReport from "./components/EmailReport";
 import SkeletonLoader from "./components/SkeletonLoader";
+import UserStatistics from "./components/UserStatistics"; 
 import "./App.css";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
-// console.log("API_URL from .env:", API_URL);
+
+
 const ErrorBoundary = ({ children }) => {
   const [hasError, setHasError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
   const maxRetries = 7;
-  // const maxRetries = 3;
 
   useEffect(() => {
     const errorHandler = (error) => {
@@ -47,8 +47,9 @@ const ErrorBoundary = ({ children }) => {
 const App = () => {
   const [events, setEvents] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [userStats, setUserStats] = useState({});
 
+  
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -62,6 +63,7 @@ const App = () => {
         console.error("Error fetching events:", error);
       }
     };
+
     const fetchChartData = async () => {
       try {
         const response = await fetch(`${API_URL}/api/chart-data`);
@@ -69,21 +71,28 @@ const App = () => {
           throw new Error("Failed to fetch chart data");
         }
         const data = await response.json();
-        
-        console.log("Fetched Chart Data:", data); // Debugging
-    
         setChartData(data);
       } catch (error) {
         console.error("Error fetching chart data:", error);
-      } finally {
-        setLoading(false);
       }
     };
-    
 
+    const fetchUserStatistics = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/user-statistics`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user statistics");
+        }
+        const data = await response.json();
+        setUserStats(data);
+      } catch (error) {
+        console.error("Error fetching user statistics:", error);
+      }
+    };
 
     fetchEvents();
     fetchChartData();
+    fetchUserStatistics();
   }, []);
 
   return (
@@ -92,12 +101,11 @@ const App = () => {
         <h1 className="dashboard-title">E-Commerce Analytics Dashboard</h1>
 
         <div className="main-content">
-         
           <div className="left-block">
             <div className="section">
               <h2 className="section-title">User Activity Chart</h2>
               <div className="chart-container">
-                {loading ? (
+                {chartData.length === 0 ? (
                   <SkeletonLoader shape="rectangular" width="100%" height={400} />
                 ) : (
                   <AnalyticsChart data={chartData} />
@@ -106,12 +114,22 @@ const App = () => {
             </div>
           </div>
 
-       
           <div className="right-block">
+            <div className="section">
+              <h2 className="section-title">User Statistics</h2>
+              <div className="stats-container">
+                {Object.keys(userStats).length === 0 ? (
+                  <SkeletonLoader shape="rectangular" width="100%" height={200} />
+                ) : (
+                  <UserStatistics stats={userStats} />
+                )}
+              </div>
+            </div>
+
             <div className="section">
               <h2 className="section-title">Event Table</h2>
               <div className="table-container">
-                {loading ? (
+                {events.length === 0 ? (
                   <SkeletonLoader shape="table" width="100%" height={150} />
                 ) : (
                   <EventTable events={events} />
@@ -122,7 +140,7 @@ const App = () => {
             <div className="section">
               <h2 className="section-title">Export & Share</h2>
               <div className="export-container">
-                {loading ? (
+                {events.length === 0 ? (
                   <SkeletonLoader shape="rectangular" width="100%" height={150} />
                 ) : (
                   <>
