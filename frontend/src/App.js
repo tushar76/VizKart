@@ -127,15 +127,16 @@ const App = () => {
             </div>
 
             <div className="section">
-              <h2 className="section-title">Event Table</h2>
-              <div className="table-container">
-                {events.length === 0 ? (
-                  <SkeletonLoader shape="table" width="100%" height={150} />
-                ) : (
-                  <EventTable events={events} />
-                )}
-              </div>
-            </div>
+  <div className="section-title"></div>
+  <div className="table-container">
+    {events.length === 0 ? (
+      <SkeletonLoader shape="table" width="100%" height={150} />
+    ) : (
+      <EventTable events={events} />
+    )}
+  </div>
+</div>
+   
 
             <div className="section">
               <h2 className="section-title">Export & Share</h2>

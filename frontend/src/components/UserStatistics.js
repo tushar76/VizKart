@@ -3,7 +3,7 @@ import React from "react";
 const UserStatistics = ({ stats }) => {
   return (
     <div className="user-statistics" style={styles.container}>
-      <h2>User Statistics</h2>
+      {/* <h2>User Statistics</h2> */}
       <div className="stats-grid" style={styles.statsGrid}>
         <div className="stat-card" style={styles.statCard}>
           <h3>Total Users</h3>
@@ -14,7 +14,7 @@ const UserStatistics = ({ stats }) => {
           <p>{stats.activeUsers}</p>
         </div>
         <div className="stat-card" style={styles.statCard}>
-          <h3>New Signups</h3>
+          <h3>New Sign-ups</h3>
           <p>{stats.newSignups}</p>
         </div>
         <div className="stat-card" style={styles.statCard}>
@@ -31,19 +31,20 @@ const styles = {
     padding: "20px",
     background: "#fff",
     borderRadius: "10px",
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)"
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    maxWidth: "600px",
+    margin: "0 auto"
   },
   statsGrid: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "15px"
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: "15px",
   },
   statCard: {
     background: "#f5f5f5",
     padding: "15px",
     borderRadius: "8px",
     textAlign: "center",
-    flex: "1"
   }
 };
 
