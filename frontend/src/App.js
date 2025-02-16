@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import AnalyticsChart from "./components/AnalyticsChart";
+import OrderTrendsChart from "./components/OrderTrendsChart";
 import EventTable from "./components/EventTable";
 import ExportExcel from "./components/ExportExcel";
 import EmailReport from "./components/EmailReport";
 import SkeletonLoader from "./components/SkeletonLoader";
-import UserStatistics from "./components/UserStatistics"; 
+import UserStatistics from "./components/UserStatistics";
 import "./App.css";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
-
 
 const ErrorBoundary = ({ children }) => {
   const [hasError, setHasError] = useState(false);
@@ -47,9 +47,9 @@ const ErrorBoundary = ({ children }) => {
 const App = () => {
   const [events, setEvents] = useState([]);
   const [chartData, setChartData] = useState([]);
+  const [orderTrends, setOrderTrends] = useState([]);
   const [userStats, setUserStats] = useState({});
 
-  
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -77,6 +77,20 @@ const App = () => {
       }
     };
 
+    const fetchOrderTrends = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/order-trends`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch order trends");
+        }
+        const data = await response.json();
+        // console.log("Fetched Order Trends:", data);
+        setOrderTrends(data);
+      } catch (error) {
+        console.error("Error fetching order trends:", error);
+      }
+    };
+
     const fetchUserStatistics = async () => {
       try {
         const response = await fetch(`${API_URL}/api/user-statistics`);
@@ -92,6 +106,7 @@ const App = () => {
 
     fetchEvents();
     fetchChartData();
+    fetchOrderTrends();
     fetchUserStatistics();
   }, []);
 
@@ -99,7 +114,6 @@ const App = () => {
     <ErrorBoundary>
       <div className="app-container">
         <h1 className="dashboard-title">E-Commerce Analytics Dashboard</h1>
-
         <div className="main-content">
           <div className="left-block">
             <div className="section">
@@ -112,8 +126,17 @@ const App = () => {
                 )}
               </div>
             </div>
+            <div className="section">
+              <h2 className="section-title">Order Trends</h2>
+              <div className="chart-container">
+                {orderTrends.length === 0 ? (
+                  <SkeletonLoader shape="rectangular" width="100%" height={300} />
+                ) : (
+                  <OrderTrendsChart data={orderTrends} />
+                )}
+              </div>
+            </div>
           </div>
-
           <div className="right-block">
             <div className="section">
               <h2 className="section-title">User Statistics</h2>
@@ -125,19 +148,16 @@ const App = () => {
                 )}
               </div>
             </div>
-
             <div className="section">
-  <div className="section-title"></div>
-  <div className="table-container">
-    {events.length === 0 ? (
-      <SkeletonLoader shape="table" width="100%" height={150} />
-    ) : (
-      <EventTable events={events} />
-    )}
-  </div>
-</div>
-   
-
+              <h2 className="section-title">Event Table</h2>
+              <div className="table-container">
+                {events.length === 0 ? (
+                  <SkeletonLoader shape="table" width="100%" height={150} />
+                ) : (
+                  <EventTable events={events} />
+                )}
+              </div>
+            </div>
             <div className="section">
               <h2 className="section-title">Export & Share</h2>
               <div className="export-container">
@@ -159,3 +179,4 @@ const App = () => {
 };
 
 export default App;
+

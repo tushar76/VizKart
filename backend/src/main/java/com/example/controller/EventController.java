@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.model.Event;
 import com.example.model.ChartData;
+import com.example.model.OrderTrend; 
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -52,4 +54,30 @@ public class EventController {
         stats.put("returningUsers", 500);
         return stats;
     }
+ 
+    @GetMapping("/order-trends")
+    public List<OrderTrend> getOrderTrends() {
+    List<OrderTrend> trends = new ArrayList<>();
+    LocalDate today = LocalDate.now();
+    Random random = new Random();
+
+    // Generate data for the past 8 days (older than current)
+    for (int i = 8; i >= 1; i--) {
+        LocalDate date = today.minusDays(i);
+        String dateStr = date.toString(); // Format: YYYY-MM-DD
+        int orders = 30 + random.nextInt(31); // Random orders between 30 and 60
+        trends.add(new OrderTrend(dateStr, orders));
+    }
+    
+    return trends;
 }
+  
+}
+    // @GetMapping("/order-trends")
+    // public List<OrderTrend> getOrderTrends() {
+    //     return Arrays.asList(
+    //         new OrderTrend("2025-01-01", 45),
+    //         new OrderTrend("2025-01-02", 52),
+    //         new OrderTrend("2025-01-03", 38)
+    //     );
+    // }
