@@ -44,17 +44,22 @@ const EmailReport = () => {
 
   return (
     <div>
-     
       <Button
         variant="contained"
         color="primary"
         onClick={() => setOpen(true)}
-        sx={{ borderRadius: 2, fontWeight: "bold", textTransform: "none" }}
+        sx={{
+          borderRadius: 2,
+          fontWeight: "bold",
+          textTransform: "none",
+          px: 3,
+          py: 1.5,
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+        }}
       >
         📧 Send Email Report
       </Button>
 
-      
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -69,19 +74,27 @@ const EmailReport = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: 450,
+              width: 500,
               bgcolor: "background.paper",
               p: 4,
               borderRadius: 3,
               boxShadow: 24,
-              backdropFilter: "blur(8px)",
+              border: "1px solid #e0e0e0",
+              background: "linear-gradient(135deg, #ffffff 0%, #f7f7f7 100%)",
             }}
           >
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="h6" fontWeight="bold">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <Typography variant="h6" fontWeight="bold" sx={{ color: "#333" }}>
                 Send Email Report
               </Typography>
-              <IconButton onClick={() => setOpen(false)}>
+              <IconButton onClick={() => setOpen(false)} sx={{ color: "#666" }}>
                 <Close />
               </IconButton>
             </Box>
@@ -94,6 +107,8 @@ const EmailReport = () => {
               onChange={handleChange}
               margin="dense"
               variant="outlined"
+              placeholder="e.g., user@example.com"
+              sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
@@ -103,6 +118,8 @@ const EmailReport = () => {
               onChange={handleChange}
               margin="dense"
               variant="outlined"
+              placeholder="e.g., Monthly Sales Report"
+              sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
@@ -114,14 +131,21 @@ const EmailReport = () => {
               variant="outlined"
               multiline
               rows={4}
+              placeholder="e.g., Please find the attached report for this month..."
+              sx={{ mb: 3 }}
             />
 
-            <Box display="flex" justifyContent="space-between" mt={3}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
               <Button
                 variant="contained"
                 color="success"
                 onClick={handleSendEmail}
-                sx={{ borderRadius: 2, textTransform: "none", fontWeight: "bold" }}
+                sx={{
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  px: 3,
+                }}
               >
                 Send Email
               </Button>
@@ -129,7 +153,12 @@ const EmailReport = () => {
                 variant="outlined"
                 color="error"
                 onClick={() => setOpen(false)}
-                sx={{ borderRadius: 2, textTransform: "none", fontWeight: "bold" }}
+                sx={{
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  px: 3,
+                }}
               >
                 Cancel
               </Button>
@@ -142,3 +171,4 @@ const EmailReport = () => {
 };
 
 export default EmailReport;
+
