@@ -54,9 +54,7 @@ const App = () => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(`${API_URL}/api/events`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch events");
-        }
+        if (!response.ok) throw new Error("Failed to fetch events");
         const data = await response.json();
         setEvents(data);
       } catch (error) {
@@ -67,9 +65,7 @@ const App = () => {
     const fetchChartData = async () => {
       try {
         const response = await fetch(`${API_URL}/api/chart-data`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch chart data");
-        }
+        if (!response.ok) throw new Error("Failed to fetch chart data");
         const data = await response.json();
         setChartData(data);
       } catch (error) {
@@ -80,11 +76,8 @@ const App = () => {
     const fetchOrderTrends = async () => {
       try {
         const response = await fetch(`${API_URL}/api/order-trends`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch order trends");
-        }
+        if (!response.ok) throw new Error("Failed to fetch order trends");
         const data = await response.json();
-        // console.log("Fetched Order Trends:", data);
         setOrderTrends(data);
       } catch (error) {
         console.error("Error fetching order trends:", error);
@@ -94,9 +87,7 @@ const App = () => {
     const fetchUserStatistics = async () => {
       try {
         const response = await fetch(`${API_URL}/api/user-statistics`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch user statistics");
-        }
+        if (!response.ok) throw new Error("Failed to fetch user statistics");
         const data = await response.json();
         setUserStats(data);
       } catch (error) {
