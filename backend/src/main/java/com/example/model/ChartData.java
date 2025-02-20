@@ -1,14 +1,16 @@
 package com.example.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Document(collection = "chartData")
 public class ChartData {
+    @Id
+    private String id;
     private String month;
     private int value;
-
-    public ChartData(String month, int value) {
-        this.month = month;
-        this.value = value;
-    }
-
-    public String getMonth() { return month; }
-    public int getValue() { return value; }
 }
