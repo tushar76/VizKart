@@ -89,7 +89,7 @@ const App = () => {
         const response = await fetch(`${API_URL}/api/user-statistics`);
         if (!response.ok) throw new Error("Failed to fetch user statistics");
         const data = await response.json();
-        setUserStats(data);
+        setUserStats(data[0]);
       } catch (error) {
         console.error("Error fetching user statistics:", error);
       }
