@@ -15,14 +15,26 @@ public class ChartDataController {
     @Autowired
     private ChartDataRepository chartDataRepository;
 
-    @PostMapping("/chart-data")
-public List<ChartData> createChartData(@RequestBody List<ChartData> chartDataList) {
-    return chartDataRepository.saveAll(chartDataList);
-}
-
-
+    
     @GetMapping("/chart-data")
     public List<ChartData> getChartData() {
         return chartDataRepository.findAll();
     }
+    
+    @PostMapping("/chart-data")
+    public List<ChartData> addChartData(@RequestBody List<ChartData> chartDataList) {
+        return chartDataRepository.saveAll(chartDataList);
+    }
+
+@PutMapping("/chart-data/{id}")
+public ChartData updateChartData(@PathVariable String id, @RequestBody ChartData updatedChartData) {
+    String cleanId = id.trim();
+    return chartDataRepository.findById(cleanId).map(chartData -> {
+        chartData.setMonth(updatedChartData.getMonth());
+        chartData.setValue(updatedChartData.getValue());
+        return chartDataRepository.save(chartData);
+    }).orElseThrow(() -> new RuntimeException("Chart Data not found with id: " + cleanId));
+}
+
+    
 }

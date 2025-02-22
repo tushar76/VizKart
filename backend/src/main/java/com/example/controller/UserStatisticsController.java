@@ -1,5 +1,4 @@
 package com.example.controller;
-
 import com.example.model.UserStatistics;
 import com.example.repository.UserStatisticsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
