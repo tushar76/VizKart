@@ -1,4 +1,5 @@
 package com.example.controller;
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.UserStatistics;
 import com.example.repository.UserStatisticsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,14 @@ public UserStatistics createUserStatistics(@RequestBody UserStatistics userStati
     return userStatisticsRepository.save(userStatistics);
 }
 
-
-
-    @GetMapping("/user-statistics")
-    public List<UserStatistics> getUserStatistics() {
-        return userStatisticsRepository.findAll();
+@GetMapping("/user-statistics")
+public List<UserStatistics> getUserStatistics() {
+    List<UserStatistics> stats = userStatisticsRepository.findAll();
+    if (stats.isEmpty()) {
+        // Throws custom exception if no user statistics are found
+        throw new ResourceNotFoundException("No user statistics found.");
     }
+    return stats;
+}
+
 }

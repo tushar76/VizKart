@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.OrderTrend;
 import com.example.repository.OrderTrendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,13 @@ public List<OrderTrend> createOrderTrends(@RequestBody List<OrderTrend> orderTre
 
 
     @GetMapping("/order-trends")
-    public List<OrderTrend> getOrderTrends() {
-        return orderTrendRepository.findAll();
+public List<OrderTrend> getOrderTrends() {
+    List<OrderTrend> orderTrends = orderTrendRepository.findAll();
+    if (orderTrends.isEmpty()) {
+        // Throws custom exception if no user statistics are found
+        throw new ResourceNotFoundException("No order trends found.");
     }
+    return orderTrends;
+}
+
 }

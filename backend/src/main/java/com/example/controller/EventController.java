@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.Event;
 import com.example.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,14 @@ public List<Event> createEvents(@RequestBody List<Event> events) {
 
     @GetMapping("/events")
     public List<Event> getEvents() {
-        return eventRepository.findAll();
+        List<Event> events = eventRepository.findAll();
+        if (events.isEmpty()) {
+            // Throws custom exception if no events are found
+            throw new ResourceNotFoundException("No events found.");
+        }
+        return events;
     }
+    
+
+
 }
