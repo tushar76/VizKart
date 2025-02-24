@@ -25,7 +25,8 @@ const EmailReport = () => {
 
   const handleSendEmail = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/send-email-report", {
+      const response = await fetch("http://localhost:8080/api/emails/send"
+, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
