@@ -1,17 +1,20 @@
 package com.example.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Getter
+@Setter
+@NoArgsConstructor  
+@AllArgsConstructor 
+@Document(collection = "events")
 public class Event {
-    private int id;
-    private String description; 
+    @Id
+    private String id;
+    private String description;
     private long timestamp;
-
-    public Event(int id, String description, long timestamp) {
-        this.id = id;
-        this.description = description;
-        this.timestamp = timestamp;
-    }
-
-    public int getId() { return id; }
-    public String getDescription() { return description; } 
-    public long getTimestamp() { return timestamp; }
 }

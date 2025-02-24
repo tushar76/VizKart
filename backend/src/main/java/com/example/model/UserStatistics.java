@@ -7,10 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Document(collection = "orderTrends")
-public class OrderTrend {
+@Document(collection = "userStatistics")
+public class UserStatistics {
     @Id
     private String id;
-    private String date;
-    private int orders;
+    private int totalUsers;
+    private int activeUsers;
+    private int newSignups;
+    private int returningUsers;
 }
