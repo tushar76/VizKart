@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.exception.CustomEmailException;
 import com.example.model.EmailRequest;
 import com.example.repository.EmailRequestRepository;
 import org.springframework.mail.SimpleMailMessage;
@@ -24,7 +25,7 @@ public class EmailController {
     @PostMapping("/send")
     public String sendEmailReport(@RequestBody EmailRequest request) {
         try {
-           
+            
             emailRequestRepository.save(request);
 
             
@@ -33,11 +34,11 @@ public class EmailController {
             message.setSubject(request.getSubject());
             message.setText(request.getBody());
 
+            
             mailSender.send(message);
             return "Email sent and saved successfully!";
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Error sending email: " + e.getMessage();
+            throw new CustomEmailException("Error sending email: " + e.getMessage());
         }
     }
 
@@ -46,3 +47,4 @@ public class EmailController {
         return emailRequestRepository.findAll();
     }
 }
+

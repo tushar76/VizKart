@@ -53,13 +53,12 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+    <groupId>io.github.cdimascio</groupId>
+    <artifactId>dotenv-java</artifactId>
+    <version>2.2.0</version>
+</dependency>
 
-       
-        <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency> -->
     </dependencies>
 
     <build>
@@ -76,6 +75,15 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>3.1.0</version>
+    <configuration>
+        <mainClass>com.example.EventAnalyticsApplication</mainClass>
+    </configuration>
+</plugin>
+
         </plugins>
     </build>
 </project>
