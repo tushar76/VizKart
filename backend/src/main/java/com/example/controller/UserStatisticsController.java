@@ -5,7 +5,6 @@ import com.example.repository.UserStatisticsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -21,13 +20,10 @@ public UserStatistics createUserStatistics(@RequestBody UserStatistics userStati
 }
 
 @GetMapping("/user-statistics")
-public List<UserStatistics> getUserStatistics() {
-    List<UserStatistics> stats = userStatisticsRepository.findAll();
-    if (stats.isEmpty()) {
-        // Throws custom exception if no user statistics are found
-        throw new ResourceNotFoundException("No user statistics found.");
-    }
-    return stats;
+public UserStatistics getUserStatistics() {
+    return userStatisticsRepository.findAll().stream()
+            .findFirst()
+            .orElseThrow(() -> new ResourceNotFoundException("No user statistics found."));
 }
 
 }

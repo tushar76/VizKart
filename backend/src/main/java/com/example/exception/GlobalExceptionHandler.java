@@ -10,13 +10,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handle resource not found exception
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    // Handle validation errors (e.g., invalid data passed to the controller)
     @SuppressWarnings("null")
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
@@ -24,19 +22,23 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    // Handle incorrect path variable type
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         return new ResponseEntity<>("Invalid parameter type: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    // Handle all other exceptions
+    // Handle email sending exceptions
+    @ExceptionHandler(CustomEmailException.class)
+    public ResponseEntity<String> handleEmailException(CustomEmailException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralException(Exception ex) {
-        ex.printStackTrace(); 
+        ex.printStackTrace();
         return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
-   
-
 }
+
